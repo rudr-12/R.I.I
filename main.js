@@ -5,8 +5,20 @@ function setup(){
     video.hide();
     classifier = ml5.imageClassifier('https://teachablemachine.withgoogle.com/models/v_sl95BzE/model.json',modelLoaded);
 } 
+function modelLoaded(){
+    console.log("model loaded!")
+}
  
 function draw(){
     image(video,0,0,300,300);
     classifier.classify(video,gotResult)
+}
+function gotResult(error,result){
+    if(error){
+        console.error(error);
+    } else {
+        console.log(result);
+        document.getElementById("result_object_name").innerHTML = results[0].label;
+        document.getElementById("result_object_accouracy").innerHTML=results[0].confidence.tofixed(3);
+    }
 }
